@@ -260,19 +260,14 @@ class BuilderSubscriber implements EventSubscriberInterface
             $idHash = uniqid();
         }
 
-        $unsubscribeText = $this->coreParametersHelper->get('unsubscribe_text');
-        if (!$unsubscribeText) {
-            $unsubscribeText = $this->translator->trans('mautic.email.unsubscribe.text', ['%link%' => '|URL|']);
-        }
+
+        $unsubscribeText = $this->translator->trans('mautic.email.unsubscribe.text', ['%link%' => '|URL|'], null, $email->getLanguage());
         $unsubscribeText = str_replace('|URL|', $this->emailModel->buildUrl('mautic_email_unsubscribe', ['idHash' => $idHash]), $unsubscribeText);
         $event->addToken('{unsubscribe_text}', EmojiHelper::toHtml($unsubscribeText));
 
         $event->addToken('{unsubscribe_url}', $this->emailModel->buildUrl('mautic_email_unsubscribe', ['idHash' => $idHash]));
 
-        $webviewText = $this->coreParametersHelper->get('webview_text');
-        if (!$webviewText) {
-            $webviewText = $this->translator->trans('mautic.email.webview.text', ['%link%' => '|URL|']);
-        }
+        $webviewText = $this->translator->trans('mautic.email.webview.text', ['%link%' => '|URL|'], null, $email->getLanguage());
         $webviewText = str_replace('|URL|', $this->emailModel->buildUrl('mautic_email_webview', ['idHash' => $idHash]), $webviewText);
         $event->addToken('{webview_text}', EmojiHelper::toHtml($webviewText));
 
