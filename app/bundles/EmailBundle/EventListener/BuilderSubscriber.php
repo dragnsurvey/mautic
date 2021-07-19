@@ -254,6 +254,11 @@ class BuilderSubscriber implements EventSubscriberInterface
         $idHash = $event->getIdHash();
         $lead   = $event->getLead();
         $email  = $event->getEmail();
+        $emailLanguage = "fr";
+        if($email){
+            $emailLanguage = $email->getLanguage();
+        }
+
 
         if (null == $idHash) {
             // Generate a bogus idHash to prevent errors for routes that may include it
@@ -261,13 +266,13 @@ class BuilderSubscriber implements EventSubscriberInterface
         }
 
 
-        $unsubscribeText = $this->translator->trans('mautic.email.unsubscribe.text', ['%link%' => '|URL|'], null, $email->getLanguage());
+        $unsubscribeText = $this->translator->trans('mautic.email.unsubscribe.text', ['%link%' => '|URL|'], null, $emailLanguage);
         $unsubscribeText = str_replace('|URL|', $this->emailModel->buildUrl('mautic_email_unsubscribe', ['idHash' => $idHash]), $unsubscribeText);
         $event->addToken('{unsubscribe_text}', EmojiHelper::toHtml($unsubscribeText));
 
         $event->addToken('{unsubscribe_url}', $this->emailModel->buildUrl('mautic_email_unsubscribe', ['idHash' => $idHash]));
 
-        $webviewText = $this->translator->trans('mautic.email.webview.text', ['%link%' => '|URL|'], null, $email->getLanguage());
+        $webviewText = $this->translator->trans('mautic.email.webview.text', ['%link%' => '|URL|'], null, $emailLanguage);
         $webviewText = str_replace('|URL|', $this->emailModel->buildUrl('mautic_email_webview', ['idHash' => $idHash]), $webviewText);
         $event->addToken('{webview_text}', EmojiHelper::toHtml($webviewText));
 
