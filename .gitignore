@@ -79,6 +79,7 @@
 !/media/images/.htaccess
 
 /plugins/*
+!/plugins/DragnSurveyBundle
 !/plugins/GrapesJsBuilderBundle
 !/plugins/MauticCitrixBundle
 !/plugins/MauticClearbitBundle
